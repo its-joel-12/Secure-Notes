@@ -7,3 +7,4 @@ Dependencies:
 3) Spring Security
 4) Lombok
 5) Data Jpa
+6) MySql
