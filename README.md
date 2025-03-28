@@ -8,3 +8,4 @@ Dependencies:
 4) Lombok
 5) Data Jpa
 6) MySql
+7) Swagger Doc

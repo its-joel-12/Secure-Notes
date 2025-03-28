@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -20,10 +21,12 @@ public class SecurityConfig {
 //                csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
 //                        .ignoringRequestMatchers("/api/auth/public/**")
 //        );
-        //http.csrf(AbstractHttpConfigurer::disable);
+        http.csrf(AbstractHttpConfigurer::disable);
         http.authorizeHttpRequests((requests)
                         -> requests
-//                        .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/v3/api-docs/**").permitAll()
+                        .requestMatchers("/swagger-ui/**").permitAll()
+                        .requestMatchers("/api/admin/**").hasRole("ADMIN")
 //                        .requestMatchers("/api/csrf-token").permitAll()
 //                        .requestMatchers("/api/auth/public/**").permitAll()
 //                        .requestMatchers("/oauth2/**").permitAll()
