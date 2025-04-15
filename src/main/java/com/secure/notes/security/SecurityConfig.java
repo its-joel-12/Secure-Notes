@@ -14,6 +14,8 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
+import javax.sql.DataSource;
+
 import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
@@ -49,9 +51,9 @@ public class SecurityConfig {
     }
 
     @Bean
-    public UserDetailsService userDetailsService() {
+    public UserDetailsService userDetailsService(DataSource dataSource) {
         JdbcUserDetailsManager manager =
-                new JdbcUserDetailsManager();
+                new JdbcUserDetailsManager(dataSource);
         if (!manager.userExists("user1")) {
             manager.createUser(
                     User.withUsername("user1")
