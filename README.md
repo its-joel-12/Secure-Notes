@@ -9,3 +9,4 @@ Dependencies:
 5) Data Jpa
 6) MySql
 7) Swagger Doc
+8) Hibernate Validation
