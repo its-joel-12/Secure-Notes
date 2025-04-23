@@ -3,7 +3,6 @@ package com.secure.notes.model;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.security.core.userdetails.User;
 
 import java.util.HashSet;
 import java.util.Set;
