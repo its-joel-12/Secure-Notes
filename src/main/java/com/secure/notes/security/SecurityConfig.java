@@ -44,7 +44,7 @@ public class SecurityConfig {
                         -> requests
 //                        .requestMatchers("/v3/api-docs/**").permitAll()
 //                        .requestMatchers("/swagger-ui/**").permitAll()
-//                        .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/api/admin/**").hasRole("ADMIN")
 //                        .requestMatchers("/api/csrf-token").permitAll()
 //                        .requestMatchers("/api/auth/public/**").permitAll()
 //                        .requestMatchers("/oauth2/**").permitAll()
