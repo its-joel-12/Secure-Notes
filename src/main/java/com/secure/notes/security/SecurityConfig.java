@@ -58,6 +58,8 @@ public class SecurityConfig {
 //                -> exception.authenticationEntryPoint(unauthorizedHandler));
 //        http.addFilterBefore(authenticationJwtTokenFilter(),
 //                UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(new CustomLoggingFilter(),
+                UsernamePasswordAuthenticationFilter.class);
 //        http.formLogin(withDefaults());
         http.httpBasic(withDefaults());
 //        http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
