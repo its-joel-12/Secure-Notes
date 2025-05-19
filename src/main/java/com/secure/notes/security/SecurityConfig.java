@@ -15,6 +15,8 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 //import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
@@ -29,9 +31,9 @@ import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
 @EnableWebSecurity
-//@EnableMethodSecurity(prePostEnabled = true,
-//        securedEnabled = true,
-//        jsr250Enabled = true)
+@EnableMethodSecurity(prePostEnabled = true,
+        securedEnabled = true,
+        jsr250Enabled = true)
 public class SecurityConfig {
     @Bean
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
@@ -41,14 +43,14 @@ public class SecurityConfig {
 //        );
         http.csrf(AbstractHttpConfigurer::disable);
         http.authorizeHttpRequests((requests)
-                        -> requests
+                -> requests
 //                        .requestMatchers("/v3/api-docs/**").permitAll()
 //                        .requestMatchers("/swagger-ui/**").permitAll()
-                        .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                .requestMatchers("/api/admin/**").hasRole("ADMIN")
 //                        .requestMatchers("/api/csrf-token").permitAll()
 //                        .requestMatchers("/api/auth/public/**").permitAll()
 //                        .requestMatchers("/oauth2/**").permitAll()
-                        .anyRequest().authenticated());
+                .anyRequest().authenticated());
 //                .oauth2Login(oauth2 -> {
 //                    oauth2.successHandler(oAuth2LoginSuccessHandler);
 //                });
@@ -86,7 +88,12 @@ public class SecurityConfig {
 //    }
 
     @Bean
-    public CommandLineRunner initData(RoleRepository roleRepository, UserRepository userRepository) {
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public CommandLineRunner initData(RoleRepository roleRepository, UserRepository userRepository, PasswordEncoder passwordEncoder) {
         return args -> {
             Role userRole = roleRepository.findByRoleName(AppRole.ROLE_USER)
                     .orElseGet(() -> roleRepository.save(new Role(AppRole.ROLE_USER)));
@@ -95,7 +102,7 @@ public class SecurityConfig {
                     .orElseGet(() -> roleRepository.save(new Role(AppRole.ROLE_ADMIN)));
 
             if (!userRepository.existsByUserName("user1")) {
-                User user1 = new User("user1", "user1@example.com", "{noop}password1");
+                User user1 = new User("user1", "user1@example.com", passwordEncoder().encode("password1"));
                 user1.setAccountNonLocked(false);
                 user1.setAccountNonExpired(true);
                 user1.setCredentialsNonExpired(true);
@@ -109,7 +116,7 @@ public class SecurityConfig {
             }
 
             if (!userRepository.existsByUserName("admin")) {
-                User admin = new User("admin", "admin@example.com", "{noop}adminPass");
+                User admin = new User("admin", "admin@example.com", passwordEncoder().encode("adminPass"));
                 admin.setAccountNonLocked(true);
                 admin.setAccountNonExpired(true);
                 admin.setCredentialsNonExpired(true);
