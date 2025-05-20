@@ -60,6 +60,8 @@ public class SecurityConfig {
 //                UsernamePasswordAuthenticationFilter.class);
         http.addFilterBefore(new CustomLoggingFilter(),
                 UsernamePasswordAuthenticationFilter.class);
+        http.addFilterAfter(new RequestValidationFilter(),
+                CustomLoggingFilter.class);
 //        http.formLogin(withDefaults());
         http.httpBasic(withDefaults());
 //        http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
