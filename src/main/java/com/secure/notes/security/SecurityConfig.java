@@ -41,13 +41,14 @@ public class SecurityConfig {
 //                csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
 //                        .ignoringRequestMatchers("/api/auth/public/**")
 //        );
-        http.csrf(AbstractHttpConfigurer::disable);
+        http.csrf(csrf ->csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()));
+//        http.csrf(AbstractHttpConfigurer::disable);
         http.authorizeHttpRequests((requests)
                 -> requests
 //                        .requestMatchers("/v3/api-docs/**").permitAll()
 //                        .requestMatchers("/swagger-ui/**").permitAll()
                 .requestMatchers("/api/admin/**").hasRole("ADMIN")
-//                        .requestMatchers("/api/csrf-token").permitAll()
+                .requestMatchers("/api/csrf-token").permitAll()
 //                        .requestMatchers("/api/auth/public/**").permitAll()
 //                        .requestMatchers("/oauth2/**").permitAll()
                 .anyRequest().authenticated());
@@ -62,7 +63,7 @@ public class SecurityConfig {
 //                UsernamePasswordAuthenticationFilter.class);
 //        http.addFilterAfter(new RequestValidationFilter(),
 //                CustomLoggingFilter.class);
-//        http.formLogin(withDefaults());
+        http.formLogin(withDefaults());
         http.httpBasic(withDefaults());
 //        http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         return http.build();
