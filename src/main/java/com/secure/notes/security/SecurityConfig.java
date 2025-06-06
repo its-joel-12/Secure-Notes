@@ -63,11 +63,11 @@ public class SecurityConfig {
 //                .requestMatchers("/api/audit/**").hasRole("ADMIN")
                 .requestMatchers("/api/csrf-token").permitAll()
                 .requestMatchers("/api/auth/public/**").permitAll()
-//                        .requestMatchers("/oauth2/**").permitAll()
-                .anyRequest().authenticated());
-//                .oauth2Login(oauth2 -> {
-//                    oauth2.successHandler(oAuth2LoginSuccessHandler);
-//                });
+                        .requestMatchers("/oauth2/**").permitAll()
+                .anyRequest().authenticated())
+                .oauth2Login(oauth2 -> {
+//                    oauth2.successHandler(oAuth2LoginSuccessHandler)
+                });
         http.exceptionHandling(exception
                 -> exception.authenticationEntryPoint(unauthorizedHandler));
         http.addFilterBefore(authenticationJwtTokenFilter(),
