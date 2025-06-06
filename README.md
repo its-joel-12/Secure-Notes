@@ -13,4 +13,5 @@ Dependencies:
 9) jjwt-api
 10) jjwt-impl
 11) jjwt-jackson
-12) Mail
+12) Starter Mail
+13) Oauth2 Client
