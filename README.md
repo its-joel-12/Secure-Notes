@@ -15,3 +15,4 @@ Dependencies:
 11) jjwt-jackson
 12) Starter Mail
 13) Oauth2 Client
+14) Google Auth
