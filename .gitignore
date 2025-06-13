@@ -1,8 +1,14 @@
 HELP.md
-target/
+#target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
+
+# Ignore everything in target/
+target/*
+
+# But don't ignore JAR files
+!target/*.jar
 
 .env
 .env.production
