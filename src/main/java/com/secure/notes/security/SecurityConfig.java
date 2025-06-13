@@ -9,6 +9,7 @@ import com.secure.notes.repository.UserRepository;
 import com.secure.notes.security.jwt.AuthEntryPointJwt;
 import com.secure.notes.security.jwt.AuthTokenFilter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -48,6 +49,12 @@ public class SecurityConfig {
     @Autowired
     @Lazy
     OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler;
+
+    @Value("${initial.user.password}")
+    private String userPassword;
+
+    @Value("${initial.admin.password}")
+    private String adminPassword;
 
     @Bean
     public AuthTokenFilter authenticationJwtTokenFilter() {
@@ -89,29 +96,6 @@ public class SecurityConfig {
         return authenticationConfiguration.getAuthenticationManager();
     }
 
-//    @Bean
-//    public UserDetailsService userDetailsService(DataSource dataSource) {
-//        JdbcUserDetailsManager manager =
-//                new JdbcUserDetailsManager(dataSource);
-//        if (!manager.userExists("user1")) {
-//            manager.createUser(
-//                    User.withUsername("user1")
-//                            .password("{noop}password1")
-//                            .roles("USER")
-//                            .build()
-//            );
-//        }
-//        if (!manager.userExists("admin")) {
-//            manager.createUser(
-//                    User.withUsername("admin")
-//                            .password("{noop}adminPass")
-//                            .roles("ADMIN")
-//                            .build()
-//            );
-//        }
-//        return manager;
-//    }
-
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -127,7 +111,7 @@ public class SecurityConfig {
                     .orElseGet(() -> roleRepository.save(new Role(AppRole.ROLE_ADMIN)));
 
             if (!userRepository.existsByUserName("user1")) {
-                User user1 = new User("user1", "user1@example.com", passwordEncoder().encode("password1"));
+                User user1 = new User("user1", "user1@example.com", passwordEncoder().encode(userPassword));
                 user1.setAccountNonLocked(false);
                 user1.setAccountNonExpired(true);
                 user1.setCredentialsNonExpired(true);
@@ -141,7 +125,7 @@ public class SecurityConfig {
             }
 
             if (!userRepository.existsByUserName("admin")) {
-                User admin = new User("admin", "admin@example.com", passwordEncoder().encode("adminPass"));
+                User admin = new User("admin", "admin@example.com", passwordEncoder().encode(adminPassword));
                 admin.setAccountNonLocked(true);
                 admin.setAccountNonExpired(true);
                 admin.setCredentialsNonExpired(true);
