@@ -8,6 +8,7 @@ Dependencies:
 4) Lombok
 5) Data Jpa
 6) MySql
+7) Postgresql
 7) Swagger Doc
 8) Hibernate Validation
 9) jjwt-api
