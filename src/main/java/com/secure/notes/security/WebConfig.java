@@ -23,7 +23,7 @@ public class WebConfig implements WebMvcConfigurer {
                         .allowedHeaders("*")
                         .allowCredentials(true)
                         .exposedHeaders("XSRF-TOKEN")
-                        .maxAge(3600);
+                        .maxAge(86400);
             }
         };
     }
