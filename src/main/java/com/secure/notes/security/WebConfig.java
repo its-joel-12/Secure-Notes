@@ -22,6 +22,7 @@ public class WebConfig implements WebMvcConfigurer {
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                         .allowedHeaders("*")
                         .allowCredentials(true)
+                        .exposedHeaders("XSRF-TOKEN")
                         .maxAge(3600);
             }
         };
