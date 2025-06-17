@@ -81,6 +81,7 @@ public class SecurityConfig {
 //                        .requestMatchers("/swagger-ui/**").permitAll()
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
 //                .requestMatchers("/api/audit/**").hasRole("ADMIN")
+                        .requestMatchers("/api/test").permitAll()
                         .requestMatchers("/api/csrf-token").permitAll()
                         .requestMatchers("/api/auth/public/**").permitAll()
                         .requestMatchers("/oauth2/**").permitAll()
